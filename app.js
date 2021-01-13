@@ -1,4 +1,4 @@
-import {compareNumbers} from './utlis.js'
+import {compareNumbers} from './utils.js'
 
 const numberGuessed = document.getElementById('number-guessed');
 
