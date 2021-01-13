@@ -1,4 +1,4 @@
-// import functions and grab DOM elements
+import {compareNumbers} from './utlis.js'
 
 const numberGuessed = document.getElementById('number-guessed');
 
@@ -14,23 +14,25 @@ const resetButton = document.getElementById('reset-button')
 let randomNumber = Math.ceil(Math.random() * 20);
 let guessesRemaining = 4;
 let losses = 0
+let wins = 0
 
 
 guessButton.addEventListener('click', () => {
     const userGuess=(Number(numberGuessed.value))
-    console.log(randomNumber)
-    if(userGuess === randomNumber) {
+    const results = compareNumbers(userGuess, randomNumber)
+    if(results === 0) {
         guessResults.textContent = 'You\'re a winner!'
+        wins ++ 
     }
     
     
-    if(userGuess > randomNumber)  {
+    if(results > 1)  {
         guessResults.textContent = 'Too high!'
         guessesRemaining--
     }
     
     
-    if (userGuess < randomNumber) {
+    if (results < -1) {
         guessResults.textContent = 'Too low!'
         guessesRemaining--
     }
@@ -41,6 +43,7 @@ guessButton.addEventListener('click', () => {
         
     }
     guessesSpace.textContent= guessesRemaining 
+    guessResults.textContent =`You have ${wins} wins & ${losses}   losses`
        
     });
 
