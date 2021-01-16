@@ -8,7 +8,11 @@ const guessesSpace = document.getElementById('guesses-space')
 
 const guessResults = document.getElementById('guess-results')
 
+const guessResultsText = document.getElementById('guess-results-text')
+
 const resetButton = document.getElementById('reset-button')
+
+
 
 
 let randomNumber = Math.ceil(Math.random() * 20);
@@ -16,35 +20,56 @@ let guessesRemaining = 4;
 let losses = 0
 let wins = 0
 
+function resetGuesses (){
+    guessesRemaining = 4;
+    guessesSpace.textContent = guessesRemaining;
+    randomNumber = Math.ceil(Math.random() * 20)
+
+}
 
 guessButton.addEventListener('click', () => {
     const userGuess=(Number(numberGuessed.value))
+    console.log(userGuess, randomNumber)
     const results = compareNumbers(userGuess, randomNumber)
     if(results === 0) {
-        guessResults.textContent = 'You\'re a winner!'
+        guessResultsText.textContent = 'You\'re a winner!'
         wins ++ 
+        resetGuesses();
+        userGuess = 0;
     }
+
+
     
     
-    if(results > 1)  {
-        guessResults.textContent = 'Too high!'
+    else if(results > 1)  {
+        guessResultsText.textContent = 'Too high!'
         guessesRemaining--
     }
     
     
-    if (results < -1) {
-        guessResults.textContent = 'Too low!'
+    else {
+        guessResultsText.textContent = 'Too low!'
         guessesRemaining--
     }
     
-    if (guessesRemaining === 0) {
+   if (guessesRemaining === 0) {
         losses ++
-        guessResults.textContent = 'Game over!'
-        
+        guessResultsText.textContent = 'Game over!' 
+        resetGuesses();  
     }
+
+
     guessesSpace.textContent= guessesRemaining 
     guessResults.textContent =`You have ${wins} wins & ${losses}   losses`
        
     });
 
-
+resetButton.addEventListener ('click', () => {
+    wins = 0;
+    losses = 0;
+    guessResultsText.textContent = '';
+    guessResults.textContent = '';
+    guessesRemaining = 4;
+    guessesSpace.textContent = guessesRemaining;
+    resetGuesses();
+})
